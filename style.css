@@ -1,0 +1,339 @@
+/* ===========================
+   متغیرهای رنگی و پایه
+   =========================== */
+:root {
+  --bg: #f4f6fb;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  --blob-1: #a78bfa;
+  --blob-2: #60a5fa;
+  --blob-3: #f472b6;
+}
+
+html[data-theme="dark"] {
+  --bg: #0f172a;
+  --card-bg: rgba(30, 41, 59, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  --blob-1: #7c3aed;
+  --blob-2: #2563eb;
+  --blob-3: #db2777;
+}
+
+/* ===========================
+   ریست پایه
+   =========================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ===========================
+   حباب‌های رنگی پس‌زمینه
+   =========================== */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+  animation: float 14s ease-in-out infinite;
+}
+
+.blob-1 {
+  width: 340px;
+  height: 340px;
+  background: var(--blob-1);
+  top: -80px;
+  right: -80px;
+}
+
+.blob-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--blob-2);
+  bottom: -100px;
+  left: -60px;
+  animation-delay: -4s;
+}
+
+.blob-3 {
+  width: 260px;
+  height: 260px;
+  background: var(--blob-3);
+  top: 40%;
+  left: 45%;
+  animation-delay: -8s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -40px) scale(1.1); }
+  66%      { transform: translate(-30px, 30px) scale(0.95); }
+}
+
+/* ===========================
+   کارت اصلی
+   =========================== */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  padding: 48px 32px 32px;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+  animation: cardIn 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===========================
+   دکمه تغییر تم
+   =========================== */
+.theme-toggle {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+  background: rgba(127, 127, 127, 0.12);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.icon-moon { opacity: 0; transform: scale(0.5); }
+
+html[data-theme="dark"] .icon-sun  { opacity: 0; transform: scale(0.5); }
+html[data-theme="dark"] .icon-moon { opacity: 1; transform: scale(1); }
+
+/* ===========================
+   عکس پروفایل
+   =========================== */
+.avatar-ring {
+  width: 148px;
+  height: 148px;
+  margin: 0 auto 20px;
+  padding: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blob-1), var(--blob-2), var(--blob-3));
+  background-size: 200% 200%;
+  animation: gradientSpin 6s linear infinite;
+}
+
+@keyframes gradientSpin {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  border: 4px solid var(--bg);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+/* ===========================
+   نام و متن‌ها
+   =========================== */
+.name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.role {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--blob-2);
+  margin-bottom: 16px;
+}
+
+html[data-theme="dark"] .role {
+  color: #93c5fd;
+}
+
+.bio {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  padding: 0 8px;
+}
+
+/* ===========================
+   شبکه‌های اجتماعی
+   =========================== */
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.social {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(127, 127, 127, 0.1);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social svg {
+  width: 22px;
+  height: 22px;
+}
+
+.social:hover {
+  transform: translateY(-5px);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+/* تولتیپ */
+.social::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: -32px;
+  right: 50%;
+  transform: translateX(50%) translateY(6px);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  background: #1a1a2e;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.social:hover::after {
+  opacity: 1;
+  transform: translateX(50%) translateY(0);
+}
+
+/* رنگ اختصاصی هر شبکه */
+.social.instagram:hover  { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.social.telegram:hover   { background: #229ed9; }
+.social.github:hover     { background: #24292e; }
+.social.linkedin:hover   { background: #0a66c2; }
+.social.x:hover          { background: #000000; }
+.social.email:hover      { background: #ea4335; }
+
+/* ===========================
+   فوتر
+   =========================== */
+.footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--card-border);
+}
+
+/* ===========================
+   واکنش‌گرایی (Responsive)
+   =========================== */
+@media (max-width: 480px) {
+  .card {
+    padding: 40px 20px 24px;
+    border-radius: 22px;
+  }
+
+  .avatar-ring {
+    width: 124px;
+    height: 124px;
+  }
+
+  .name { font-size: 1.35rem; }
+  .bio  { font-size: 0.85rem; }
+
+  .social {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .social svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* احترام به کاربرانی که انیمیشن نمی‌خواهند */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
